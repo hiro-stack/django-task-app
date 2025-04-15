@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザー管理画面</title>
+</head>
+<body>
+    <h1>ユーザー管理画面</h1>
+
+    <ul>
+        {% for user in users %}
+            <li>
+                <p>ユーザー名: {{ user.username }}</p>
+                <p>email: {{ user.email }}</p>
+                <p>role: {{ user.role }}</p>
+                <p>アカウント作成日: {{ user.created_at }}</p>
+                <p>アカウント更新日: {{ user.created_at }}</p>
+                <a href="{% url 'user:users_list_update' user.id %}">ユーザー情報を編集</a>
+                <a href="{% url 'user:users_list_delete' user.id %}">ユーザー情報を削除</a>
+            </li>
+        {% empty %}
+            <p>ユーザーがいません</p>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'user:users_list_create'%}">新しいユーザーを追加</a>
+    <br>
+    <a href="{% url 'tasks:tasks_index' %}">タスク管理画面に戻る</a>
+</body>
+</html>

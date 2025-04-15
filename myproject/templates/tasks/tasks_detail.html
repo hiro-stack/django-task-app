@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タスク詳細</title>
+</head>
+<body>
+
+    <h1>{{ task.title }}</h1>
+    <p>{{ task.description }}</p>
+    <p>ステータス: {{ task.status }}</p>
+    <p>期限: {{ task.due_date }} </p>
+    <p>担当者: {{ task.assigned_member }}</p>
+    <p>作成日: {{ task.created_at }}</p>
+
+    <a href="{% url 'tasks:tasks_update' task.id %}">編集</a> |
+    <a href="{% url 'tasks:tasks_delete' task.id %}">削除</a> |
+
+
+    <form action="{% url 'tasks:tasks_status' task.id %}" method="POST">
+        {% csrf_token %}
+        <label for="status-{{ task.id }}">ステータス:</label>
+        <select name="status" id="status-{{ task.id }}">
+            <option value="未着手" {% if task.status == "未着手" %}selected{% endif %}>未着手</option>
+            <option value="進行中" {% if task.status == "進行中" %}selected{% endif %}>進行中</option>
+            <option value="完了" {% if task.status == "完了" %}selected{% endif %}>完了</option>
+        </select>
+        <button type="submit">更新</button>
+    </form>
+
+    
+    <br><br>
+    <a href="{% url 'tasks:tasks_index' %}">タスク一覧に戻る</a>
+
+</body>
+</html>

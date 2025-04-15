@@ -1,0 +1,25 @@
+    {% if user.is_authenticated %}
+       <div>
+          <p> ようこそ{{ user.username }}さん</p>
+       </div>
+
+       <div>
+          <form action="{% url 'user:user_logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">ログアウト</button>
+          </form>
+
+       </div>
+    {% else %}
+       <a href="{% url 'user:user_signup'%}">サインアップ</a>
+       <a href="{% url 'user:user_login '%}">ログイン</a>
+    {% endif %}
+
+    from django.contrib.auth.decorators import  
+    @ 
+    -> 
+    
+    from django.contrib.auth.mixins import LoginRequiredMixin
+    class UserProfileView(LoginRequiredMixin, View):
+
+    aa

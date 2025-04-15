@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ユーザー作成顔面</title>
+</head>
+
+<body>
+    <a href="{% url 'user:users_list' %}">ユーザー一覧に戻る</a>
+
+    {% if form.errors %}
+            <div style="color: red;">
+                <p>入力内容に誤りがあります。もう一度確認してください。</p>
+            </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">ユーザーを作成</button>
+    </form>
+
+</body>
+</html>

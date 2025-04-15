@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>タスク一覧</title>
+</head>
+<body>
+
+    <h1>タスク一覧</h1>
+
+    {% if user.is_authenticated %}
+       <div>
+          <p> ようこそ{{ user.username }}さん</p>
+        </div>
+
+        <div>
+           <form action="{% url 'user:user_logout' %}" method="post">
+            {% csrf_token %}
+            <button type="submit">ログアウト</button>
+            </form>
+        </div>
+
+    {% else %}
+        <a href="{% url 'user:user_signup' %}">サインアップ</a>
+        <a href="{% url 'user:user_login' %}">ログイン</a>
+    {% endif %}
+
+    {% if user.role == "admin" %}
+        <a href="{% url 'user:users_list' %}" >ユーザー管理画面</a>
+    {% endif %}
+
+    <ul>
+        {% for task in tasks %}
+            <li>
+                <a href="{% url 'tasks:tasks_detail' task.id %}">{{ task.title }}</a>
+                <p>担当者: {{ task.assigned_member}}</p>
+                <p>期限: {{ task.due_date }}</p>
+
+
+                 <form action="{% url 'tasks:tasks_status' task.id %}" method="POST">
+                    {% csrf_token %}
+                    <label for="status-{{ task.id }}">ステータス:</label>
+                    <select name="status" id="status-{{ task.id }}">
+                        <option value="未着手" {% if task.status == "未着手" %}selected{% endif %}>未着手</option>
+                        <option value="進行中" {% if task.status == "進行中" %}selected{% endif %}>進行中</option>
+                        <option value="完了" {% if task.status == "完了" %}selected{% endif %}>完了</option>
+                    </select>
+                    <button type="submit">更新</button>
+                </form>
+
+            </li>
+        {% empty %}
+            <p>タスクがありません。</p>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'tasks:tasks_create' %}">新しいタスクを追加</a>
+
+</body>
+</html>
